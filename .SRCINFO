@@ -1,7 +1,7 @@
 pkgbase = openvino
 	pkgdesc = A toolkit for developing artificial inteligence and deep learning applications
 	pkgver = 2024.1.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://docs.openvinotoolkit.org/
 	arch = x86_64
 	license = Apache-2.0
@@ -23,6 +23,7 @@ pkgbase = openvino
 	depends = onetbb
 	optdepends = intel-compute-runtime: for Intel GPU plugin
 	optdepends = ocl-icd: for Intel GPU plugin
+	optdepends = level-zero-loader: for Intel NPU plugin
 	optdepends = snappy: for tensorflow frontend
 	optdepends = protobuf: for tensorflow, paddle and onnx frontends
 	optdepends = python: for Python API
