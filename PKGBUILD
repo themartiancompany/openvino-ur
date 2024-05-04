@@ -5,7 +5,7 @@
 
 pkgname=openvino
 pkgver=2024.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc='A toolkit for developing artificial inteligence and deep learning applications'
 arch=('x86_64')
 url='https://docs.openvinotoolkit.org/'
@@ -123,15 +123,14 @@ prepare() {
 }
 
 build() {
-    export CFLAGS+=' -march=x86-64-v3'
-    export CXXFLAGS+=' -march=x86-64-v3'
-    
     # note: does not accept 'None' build type
     cmake -B build -S openvino \
         -G 'Unix Makefiles' \
         -DBUILD_TESTING:BOOL='OFF' \
         -DCMAKE_BUILD_TYPE:STRING='Release' \
         -DCMAKE_INSTALL_PREFIX:PATH='/opt/intel/openvino' \
+        -DENABLE_SSE42:BOOL='OFF' \
+        -DENABLE_AVX2:BOOL='OFF' \
         -DENABLE_AVX512F:BOOL='OFF' \
         -DENABLE_PYTHON:BOOL='ON' \
         -DENABLE_CLANG_FORMAT:BOOL='OFF' \
