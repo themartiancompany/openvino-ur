@@ -4,8 +4,8 @@
 # https://github.com/openvinotoolkit/openvino/issues/452#issuecomment-722941119
 
 pkgname=openvino
-pkgver=2024.1.0
-pkgrel=3
+pkgver=2024.2.0
+pkgrel=1
 pkgdesc='A toolkit for developing artificial inteligence and deep learning applications'
 arch=('x86_64')
 url='https://docs.openvinotoolkit.org/'
@@ -15,13 +15,12 @@ optdepends=('intel-compute-runtime: for Intel GPU plugin'
             'ocl-icd: for Intel GPU plugin'
             'level-zero-loader: for Intel NPU plugin'
             'snappy: for tensorflow frontend'
-            'protobuf: for tensorflow, paddle and onnx frontends'
             'python: for Python API'
             'python-numpy: for Python API'
-            'cython: for Python API')
+            'python-packaging: for Python API'
+            'python-pillow: for Python API')
 makedepends=('git' 'git-lfs' 'cmake' 'opencl-clhpp' 'opencl-headers' 'ocl-icd' 'opencv'
-             'snappy' 'python' 'python-setuptools' 'cython' 'fdupes' 'patchelf'
-             'shellcheck')
+             'snappy' 'python' 'python-setuptools' 'fdupes' 'patchelf' 'shellcheck')
 provides=('intel-openvino')
 conflicts=('intel-openvino')
 replaces=('intel-openvino')
@@ -51,11 +50,13 @@ source=("git+https://github.com/openvinotoolkit/openvino.git#tag=${pkgver}"
         'git+https://github.com/oneapi-src/level-zero.git'
         'git+https://github.com/intel/level-zero-npu-extensions.git'
         'git+https://github.com/openvinotoolkit/telemetry.git'
+        'git+https://github.com/libxsmm/libxsmm.git'
         'openvino.conf'
         'setupvars.sh'
         '010-openvino-disable-werror.patch'
         '020-openvino-use-protobuf-shared-libs.patch')
-sha256sums=('edf2a719de99981396784da9e42483a16c8a2e24453780693cc69d452b4b45b3'
+sha256sums=('60a83d96f8a22361699d536298ad6f2697fb27fefd4ee2710f807e9beaff53bf'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -116,6 +117,7 @@ prepare() {
     git -C openvino config --local submodule.src/plugins/intel_npu/thirdparty/level-zero.url "${srcdir}/level-zero"
     git -C openvino config --local submodule.src/plugins/intel_npu/thirdparty/level-zero-ext.url "${srcdir}/level-zero-npu-extensions"
     git -C openvino config --local submodule.thirdparty/telemetry.url "${srcdir}/telemetry"
+    git -C openvino config --local submodule.src/plugins/intel_cpu/thirdparty/libxsmm.url "${srcdir}/libxsmm"
     git -C openvino -c protocol.file.allow='always' submodule update
     
     patch -d openvino -Np1 -i "${srcdir}/010-openvino-disable-werror.patch"
@@ -123,6 +125,11 @@ prepare() {
 }
 
 build() {
+    # fix warning: "_FORTIFY_SOURCE" redefined
+    # note: upstream forces _FORTIFY_SOURCE=2
+    export CFLAGS="${CFLAGS/-Wp,-D_FORTIFY_SOURCE=?/}"
+    export CXXFLAGS="${CXXFLAGS/-Wp,-D_FORTIFY_SOURCE=?/}"
+    
     # note: does not accept 'None' build type
     cmake -B build -S openvino \
         -G 'Unix Makefiles' \
