@@ -4,7 +4,7 @@
 # https://github.com/openvinotoolkit/openvino/issues/452#issuecomment-722941119
 
 pkgname=openvino
-pkgver=2024.2.0
+pkgver=2024.3.0
 pkgrel=1
 pkgdesc='A toolkit for developing artificial inteligence and deep learning applications'
 arch=('x86_64')
@@ -51,11 +51,13 @@ source=("git+https://github.com/openvinotoolkit/openvino.git#tag=${pkgver}"
         'git+https://github.com/intel/level-zero-npu-extensions.git'
         'git+https://github.com/openvinotoolkit/telemetry.git'
         'git+https://github.com/libxsmm/libxsmm.git'
+        'git+https://github.com/openvinotoolkit/shl.git'
         'openvino.conf'
         'setupvars.sh'
         '010-openvino-disable-werror.patch'
         '020-openvino-use-protobuf-shared-libs.patch')
-sha256sums=('60a83d96f8a22361699d536298ad6f2697fb27fefd4ee2710f807e9beaff53bf'
+sha256sums=('148b0a39051e24e1e87811c2c7177baa0505d2261817ad4db04ec2ce9d1cb5c2'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -84,7 +86,7 @@ sha256sums=('60a83d96f8a22361699d536298ad6f2697fb27fefd4ee2710f807e9beaff53bf'
             '335a55533ab26bd1f63683921baf33b8e8e3f2732a94554916d202ee500f90af'
             'e5024ad3382f285fe63dc58faca379f11a669bbe9f5d90682c59ad588aab434c'
             '0bbf46bef304dea08b318d1ffd564735b19e1afb6c0f41c98d216824cc630132'
-            '2329bb09c80ce44ae622da9d318d246b237e3a4d259d12f6b8920a249ec994bb')
+            '9c10b6d9cc6ba4722fae449f401875c538d5aa544d89edf3260fe766f946dbb8')
 
 export GIT_LFS_SKIP_SMUDGE='1'
 
@@ -118,6 +120,7 @@ prepare() {
     git -C openvino config --local submodule.src/plugins/intel_npu/thirdparty/level-zero-ext.url "${srcdir}/level-zero-npu-extensions"
     git -C openvino config --local submodule.thirdparty/telemetry.url "${srcdir}/telemetry"
     git -C openvino config --local submodule.src/plugins/intel_cpu/thirdparty/libxsmm.url "${srcdir}/libxsmm"
+    git -C openvino config --local submodule.src/plugins/intel_cpu/thirdparty/shl.url "${srcdir}/shl"
     git -C openvino -c protocol.file.allow='always' submodule update
     
     patch -d openvino -Np1 -i "${srcdir}/010-openvino-disable-werror.patch"
