@@ -1,6 +1,6 @@
 pkgbase = openvino
 	pkgdesc = A toolkit for developing artificial inteligence and deep learning applications
-	pkgver = 2024.3.0
+	pkgver = 2024.4.0
 	pkgrel = 1
 	url = https://docs.openvinotoolkit.org/
 	arch = x86_64
@@ -32,7 +32,7 @@ pkgbase = openvino
 	conflicts = intel-openvino
 	replaces = intel-openvino
 	options = !emptydirs
-	source = git+https://github.com/openvinotoolkit/openvino.git#tag=2024.3.0
+	source = git+https://github.com/openvinotoolkit/openvino.git#tag=2024.4.0
 	source = oneDNN-openvinotoolkit::git+https://github.com/openvinotoolkit/oneDNN.git
 	source = git+https://github.com/herumi/xbyak.git
 	source = git+https://github.com/madler/zlib.git
@@ -63,7 +63,8 @@ pkgbase = openvino
 	source = setupvars.sh
 	source = 010-openvino-disable-werror.patch
 	source = 020-openvino-use-protobuf-shared-libs.patch
-	sha256sums = 148b0a39051e24e1e87811c2c7177baa0505d2261817ad4db04ec2ce9d1cb5c2
+	source = 030-openvino-level-zero-disable-werror.patch
+	sha256sums = 556f335d199fb4c3dcd919f27eeca120eafc1814f0f4d42f2b1b8e681bc136e4
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
@@ -92,7 +93,8 @@ pkgbase = openvino
 	sha256sums = SKIP
 	sha256sums = 335a55533ab26bd1f63683921baf33b8e8e3f2732a94554916d202ee500f90af
 	sha256sums = e5024ad3382f285fe63dc58faca379f11a669bbe9f5d90682c59ad588aab434c
-	sha256sums = 0bbf46bef304dea08b318d1ffd564735b19e1afb6c0f41c98d216824cc630132
+	sha256sums = c12e827abec2de978ab22f0c7667ebd632fb551e54aecbeade0cff1491dae3f3
 	sha256sums = 9c10b6d9cc6ba4722fae449f401875c538d5aa544d89edf3260fe766f946dbb8
+	sha256sums = 51dc09683a319f9a939369d47d6752b41fea61737e6886a5814fc75f3dc1cef1
 
 pkgname = openvino

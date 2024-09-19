@@ -4,7 +4,7 @@
 # https://github.com/openvinotoolkit/openvino/issues/452#issuecomment-722941119
 
 pkgname=openvino
-pkgver=2024.3.0
+pkgver=2024.4.0
 pkgrel=1
 pkgdesc='A toolkit for developing artificial inteligence and deep learning applications'
 arch=('x86_64')
@@ -55,8 +55,9 @@ source=("git+https://github.com/openvinotoolkit/openvino.git#tag=${pkgver}"
         'openvino.conf'
         'setupvars.sh'
         '010-openvino-disable-werror.patch'
-        '020-openvino-use-protobuf-shared-libs.patch')
-sha256sums=('148b0a39051e24e1e87811c2c7177baa0505d2261817ad4db04ec2ce9d1cb5c2'
+        '020-openvino-use-protobuf-shared-libs.patch'
+        '030-openvino-level-zero-disable-werror.patch')
+sha256sums=('556f335d199fb4c3dcd919f27eeca120eafc1814f0f4d42f2b1b8e681bc136e4'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -85,8 +86,9 @@ sha256sums=('148b0a39051e24e1e87811c2c7177baa0505d2261817ad4db04ec2ce9d1cb5c2'
             'SKIP'
             '335a55533ab26bd1f63683921baf33b8e8e3f2732a94554916d202ee500f90af'
             'e5024ad3382f285fe63dc58faca379f11a669bbe9f5d90682c59ad588aab434c'
-            '0bbf46bef304dea08b318d1ffd564735b19e1afb6c0f41c98d216824cc630132'
-            '9c10b6d9cc6ba4722fae449f401875c538d5aa544d89edf3260fe766f946dbb8')
+            'c12e827abec2de978ab22f0c7667ebd632fb551e54aecbeade0cff1491dae3f3'
+            '9c10b6d9cc6ba4722fae449f401875c538d5aa544d89edf3260fe766f946dbb8'
+            '51dc09683a319f9a939369d47d6752b41fea61737e6886a5814fc75f3dc1cef1')
 
 export GIT_LFS_SKIP_SMUDGE='1'
 
@@ -125,6 +127,7 @@ prepare() {
     
     patch -d openvino -Np1 -i "${srcdir}/010-openvino-disable-werror.patch"
     patch -d openvino -Np1 -i "${srcdir}/020-openvino-use-protobuf-shared-libs.patch"
+    patch -d openvino/src/plugins/intel_npu/thirdparty/level-zero -Np1 -i "${srcdir}/030-openvino-level-zero-disable-werror.patch"
 }
 
 build() {
