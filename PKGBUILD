@@ -5,7 +5,7 @@
 
 pkgname=openvino
 pkgver=2024.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc='A toolkit for developing artificial inteligence and deep learning applications'
 arch=('x86_64')
 url='https://docs.openvinotoolkit.org/'
@@ -137,6 +137,7 @@ build() {
     export CXXFLAGS="${CXXFLAGS/-Wp,-D_FORTIFY_SOURCE=?/}"
     
     # note: does not accept 'None' build type
+    # note: npu plugin needs avx and does not build with the default x86_64 arch
     cmake -B build -S openvino \
         -G 'Unix Makefiles' \
         -DBUILD_TESTING:BOOL='OFF' \
@@ -145,9 +146,10 @@ build() {
         -DENABLE_SSE42:BOOL='OFF' \
         -DENABLE_AVX2:BOOL='OFF' \
         -DENABLE_AVX512F:BOOL='OFF' \
-        -DENABLE_PYTHON:BOOL='ON' \
         -DENABLE_CLANG_FORMAT:BOOL='OFF' \
+        -DENABLE_INTEL_NPU:BOOL='OFF' \
         -DENABLE_NCC_STYLE:BOOL='OFF' \
+        -DENABLE_PYTHON:BOOL='ON' \
         -DENABLE_SYSTEM_PUGIXML:BOOL='ON' \
         -DENABLE_SYSTEM_TBB:BOOL='ON' \
         -DENABLE_SYSTEM_OPENCL:BOOL='ON' \
