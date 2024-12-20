@@ -274,19 +274,22 @@ prepare() {
       "${_pkg}" \
     -Np1 \
     -i \
-    "${srcdir}/010-${_pkg}-disable-werror.patch"
+    "${srcdir}/010-${_pkg}-disable-werror.patch" || \
+    true
   patch \
     -d \
       "${_pkg}" \
     -Np1 \
     -i \
-    "${srcdir}/020-${_pkg}-use-protobuf-shared-libs.patch"
+    "${srcdir}/020-${_pkg}-use-protobuf-shared-libs.patch" || \
+    true
   patch \
     -d \
       "${_pkg}/src/plugins/intel_npu/thirdparty/level-zero" \
     -Np1 \
     -i \
-    "${srcdir}/030-${_pkg}-level-zero-disable-werror.patch"
+    "${srcdir}/030-${_pkg}-level-zero-disable-werror.patch" || \
+    true
 }
 
 build() {
@@ -310,7 +313,7 @@ build() {
     -DENABLE_PYTHON:BOOL='ON'
     -DENABLE_SYSTEM_PUGIXML:BOOL='ON'
     -DENABLE_SYSTEM_TBB:BOOL='ON'
-    -DENABLE_SYSTEM_OPENCL:BOOL='ON'
+    -DENABLE_SYSTEM_OPENCL:BOOL='OFF'
     -DENABLE_SYSTEM_PROTOBUF:BOOL='OFF'
     -DENABLE_SYSTEM_FLATBUFFERS:BOOL='OFF'
     -DENABLE_SYSTEM_SNAPPY:BOOL='ON'
